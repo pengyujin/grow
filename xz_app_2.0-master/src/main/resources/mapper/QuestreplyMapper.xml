@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xz.app.mapper.QuestreplyMapper">
+  <resultMap id="BaseResultMap" type="com.xz.app.pojo.Questreply">
+    <id column="replyid" jdbcType="BIGINT" property="replyid" />
+    <result column="questid" jdbcType="BIGINT" property="questid" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="image" jdbcType="VARCHAR" property="image" />
+    <result column="liketime" jdbcType="INTEGER" property="liketime" />
+    <result column="replyuser" jdbcType="BIGINT" property="replyuser" />
+    <result column="userid" jdbcType="INTEGER" property="userid" />
+    <result column="is_delete" jdbcType="TINYINT" property="is_delete" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.xz.app.pojo.Questreply">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    replyid, questid, time, image, liketime, replyuser, userid, is_delete
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.xz.app.pojo.QuestreplyExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from questreply
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.xz.app.pojo.QuestreplyExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from questreply
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from questreply
+    where replyid = #{replyid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from questreply
+    where replyid = #{replyid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.xz.app.pojo.Questreply">
+    insert into questreply (replyid, questid, time, 
+      image, liketime, replyuser, 
+      userid, is_delete, content
+      )
+    values (#{replyid,jdbcType=BIGINT}, #{questid,jdbcType=BIGINT}, #{time,jdbcType=TIMESTAMP}, 
+      #{image,jdbcType=VARCHAR}, #{liketime,jdbcType=INTEGER}, #{replyuser,jdbcType=BIGINT}, 
+      #{userid,jdbcType=INTEGER}, #{is_delete,jdbcType=TINYINT}, #{content,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xz.app.pojo.Questreply">
+    insert into questreply
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="replyid != null">
+        replyid,
+      </if>
+      <if test="questid != null">
+        questid,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+      <if test="image != null">
+        image,
+      </if>
+      <if test="liketime != null">
+        liketime,
+      </if>
+      <if test="replyuser != null">
+        replyuser,
+      </if>
+      <if test="userid != null">
+        userid,
+      </if>
+      <if test="is_delete != null">
+        is_delete,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="replyid != null">
+        #{replyid,jdbcType=BIGINT},
+      </if>
+      <if test="questid != null">
+        #{questid,jdbcType=BIGINT},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="image != null">
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="liketime != null">
+        #{liketime,jdbcType=INTEGER},
+      </if>
+      <if test="replyuser != null">
+        #{replyuser,jdbcType=BIGINT},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="is_delete != null">
+        #{is_delete,jdbcType=TINYINT},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xz.app.pojo.Questreply">
+    update questreply
+    <set>
+      <if test="questid != null">
+        questid = #{questid,jdbcType=BIGINT},
+      </if>
+      <if test="time != null">
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="image != null">
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="liketime != null">
+        liketime = #{liketime,jdbcType=INTEGER},
+      </if>
+      <if test="replyuser != null">
+        replyuser = #{replyuser,jdbcType=BIGINT},
+      </if>
+      <if test="userid != null">
+        userid = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="is_delete != null">
+        is_delete = #{is_delete,jdbcType=TINYINT},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where replyid = #{replyid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.xz.app.pojo.Questreply">
+    update questreply
+    set questid = #{questid,jdbcType=BIGINT},
+      time = #{time,jdbcType=TIMESTAMP},
+      image = #{image,jdbcType=VARCHAR},
+      liketime = #{liketime,jdbcType=INTEGER},
+      replyuser = #{replyuser,jdbcType=BIGINT},
+      userid = #{userid,jdbcType=INTEGER},
+      is_delete = #{is_delete,jdbcType=TINYINT},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where replyid = #{replyid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xz.app.pojo.Questreply">
+    update questreply
+    set questid = #{questid,jdbcType=BIGINT},
+      time = #{time,jdbcType=TIMESTAMP},
+      image = #{image,jdbcType=VARCHAR},
+      liketime = #{liketime,jdbcType=INTEGER},
+      replyuser = #{replyuser,jdbcType=BIGINT},
+      userid = #{userid,jdbcType=INTEGER},
+      is_delete = #{is_delete,jdbcType=TINYINT}
+    where replyid = #{replyid,jdbcType=BIGINT}
+  </update>
+</mapper>
