@@ -36,7 +36,7 @@ public class ReplyServiceImpl implements ReplyService {
 
 	@Override
 	public void update(Questreply Questreply) {
-//		QuestReplyMapper.updateByPrimaryKey(QuestReply);
+//		QuestreplyMapper.updateByPrimaryKey(Questreply);
 		QuestreplyMapper.updateByPrimaryKeySelective(Questreply);
 
 	}
@@ -81,16 +81,16 @@ public class ReplyServiceImpl implements ReplyService {
 
 		foreUsers = new ForeUsers(userService.get(Questreply.getUserid()));
 
-		answer=new ForeAnswer(replyLikeTimeService.getLikeTimes(Questreply.getQuestid()),Questreply.getImage(),QuestReply.getReplyid(), QuestReply.getContent(), QuestReply.getTime(), foreUsers);
+		answer=new ForeAnswer(replyLikeTimeService.getLikeTimes(Questreply.getQuestid()),Questreply.getImage(),Questreply.getReplyid(), Questreply.getContent(), Questreply.getTime(), foreUsers);
 
 		if(Questreply.getReplyuser()==null){
 			answer.setType(0);;
 		}
 		else{
-			Questreply QuestReply2 = QuestreplyMapper.selectByPrimaryKey(Questreply.getReplyid());
-			foreUsers =new ForeUsers(userService.get(QuestReply2.getUserid()));
+			Questreply Questreply2 = QuestreplyMapper.selectByPrimaryKey(Questreply.getReplyid());
+			foreUsers =new ForeUsers(userService.get(Questreply2.getUserid()));
 			answer.setType(1);
-			answer.setQuote(QuestReply2.getContent());
+			answer.setQuote(Questreply2.getContent());
 			answer.setTouser(foreUsers);
 		}
 
@@ -102,10 +102,10 @@ public class ReplyServiceImpl implements ReplyService {
 		QuestreplyExample example = new QuestreplyExample();
 		example.createCriteria().andQuestidEqualTo(questid);
 
-		List<Questreply> QuestReplyList = QuestreplyMapper.selectByExample(example);
+		List<Questreply> QuestreplyList = QuestreplyMapper.selectByExample(example);
 //删除标记，新的springboot版本还没生成
-		if(QuestReplyList != null) {
-			for (Questreply reply : QuestReplyList) {
+		if(QuestreplyList != null) {
+			for (Questreply reply : QuestreplyList) {
 				reply.setIs_delete((byte) 1);
 				QuestreplyMapper.updateByPrimaryKey(reply);
 			}

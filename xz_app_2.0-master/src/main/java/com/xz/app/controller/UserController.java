@@ -364,10 +364,11 @@ public class UserController {
 			@RequestHeader(value="token") @ApiParam(value = "用户登陆权限") String token){
 		int userId = redisService.getUserId(token);
 		Map<String, Object> map=MapHelper.success();
-		//xu upMessage是否被点赞（1/0）、commentMessage是否被评论(1/0)、careMessage特别关注的动态（1/0）
+		//xu upMessage是否被点赞（1/0）、commentMessage是否被评论(1/0)、careMessage特别关注的动态（1/0）、cardMessage是否收到名片、collectMessage是否被收藏
 		map.put("careMessage",redisService.getEspeciallyCareFromRedis(userId));
 		map.put("commentMessage",redisService.isCommentsAndAnswer(userId));
 		map.put("upMessage", redisService.isUpNotice(userId));
+		map.put("cardMessage",redisService.isExistCardinRedis(userId));
 		return map;
 	}
 
@@ -523,10 +524,8 @@ public class UserController {
 			readcardService.add(readcardKey);
 			redisService.addCardToRedis(touserId);
 		}
-
 		return MapHelper.success();
 	}
-
 	@ApiOperation(value = "检查收到的名片", notes = "检查收到的名片")
 	@RequestMapping(value="checkCard", method = RequestMethod.POST)
 	@ResponseBody
@@ -537,7 +536,7 @@ public class UserController {
 
 		int userId = redisService.getUserId(token);
 
-		if(redisService.isExistCardinRedis(userId)==true){
+		if(redisService.isExistCardinRedis(userId)==1){//改
 			map=MapHelper.success();
 			map.put("has_msg",1);
 			return map;
